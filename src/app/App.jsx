@@ -1,6 +1,6 @@
 import './app.css';
 import { Route, Switch } from "react-router-dom"
-import NavBar from './calendar/NavBar';
+// import NavBar from './calendar/NavBar';
 import Calendar from './calendar/Calendar'
 import NewTaskForm from './calendar/NewTaskForm'
 import Login from './calendar/Login' 
