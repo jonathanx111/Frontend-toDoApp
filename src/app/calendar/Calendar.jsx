@@ -6,9 +6,7 @@ import CalendarHeader from "./header";
 import { format } from "date-fns";
 
 import "./calendar.css";
-// import buildCalendar from "./build";
-// import dayStyles from "./styles";
-// import CalendarHeader from "./header";
+
 function Calendar() {
   const [value, setValue] = useState(new Date());
   const [calendar, setCalendar] = useState([]);
