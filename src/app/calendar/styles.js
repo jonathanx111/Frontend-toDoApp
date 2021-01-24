@@ -1,20 +1,26 @@
+import { isSameDay, isBefore, startOfMonth, endOfMonth, isAfter } from "date-fns";
 function isSelected(day, value) {
-  return value.isSame(day, "day");
+  // return value.isSame(day, "day");
+  return isSameDay(day, value);
 }
 
-function beforeToday(day) {
-  return day.isBefore(new Date(), "day");
+function beforeMonth(day, value) {
+  // return day.isBefore(new Date(), "day");
+  return (
+    isBefore(day, startOfMonth(value)) || isAfter(day, endOfMonth(value))
+  );
 }
 
-function isToday(day) {
-  return day.isSame(new Date(), "day");
+function isItToday(day) {
+  // return day.isSame(new Date(), "day");
+  return isSameDay(day, new Date());
 }
 
 function dayStyles(day, value) {
-  if (beforeToday(day)) return "before";
   if (isSelected(day, value)) return "selected";
-  if (isToday(day)) return "today";
+  if (isItToday(day)) return "today";
+  if (beforeMonth(day, value)) return "before";
   return "";
 }
 
-export default dayStyles
+export default dayStyles;

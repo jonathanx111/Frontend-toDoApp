@@ -1,18 +1,23 @@
+import { format, subMonths, addMonths} from 'date-fns'
 export default function CalendarHeader({ value, setValue }) {
   function currentMonthName() {
-    return value.format("MMMM");
+    // return value.format("MMMM");
+    return format(value, "MMM")
   }
 
   function currentYearName() {
-    return value.format("YYYY");
+    // return value.format("YYYY");
+    return format(value, "yyyy");
   }
 
   function prevMonth() {
-    return value.clone().subtract(1, "month");
+    // return value.clone().subtract(1, "month");
+    return subMonths(value, 1)
   }
 
   function nextMonth() {
-    return value.clone().add(1, "month");
+    // return value.clone().add(1, "month");
+    return addMonths(value, 1)
   }
 
   return (
