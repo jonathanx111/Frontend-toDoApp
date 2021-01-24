@@ -1,7 +1,7 @@
 import './app.css';
 import { Route, Switch } from "react-router-dom"
 // import NavBar from './calendar/NavBar';
-import Calendar from './calendar/Calendar'
+import Home from './calendar/Home'
 import NewTaskForm from './calendar/NewTaskForm'
 import Login from './calendar/Login' 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       {/* <NavBar /> */}
       <Switch>
         <Route exact path="/">
-          <Calendar />
+          <Home />
         </Route>
         <Route exact path="/tasks/new">
           <NewTaskForm />

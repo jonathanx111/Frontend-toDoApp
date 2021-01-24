@@ -1,21 +1,10 @@
-import { useState, useEffect } from "react";
-import buildCalendar from "./build";
 import { nanoid } from "nanoid";
 import dayStyles from "./styles";
-import CalendarHeader from "./header";
 import { format } from "date-fns";
-
-import "./calendar.css";
-
-function Calendar() {
-  const [value, setValue] = useState(new Date());
-  const [calendar, setCalendar] = useState([]);
-  useEffect(() => {
-    setCalendar(buildCalendar(value));
-  }, [value]);
-console.log(value)
+import CalendarHeader from "./header"
+export default function MiniCalendar({ value, setValue, calendar }) {
   return (
-    <div className="calendar">
+    <>
       <CalendarHeader value={value} setValue={setValue} />
       <div className="body">
         <div className="day-names">
@@ -37,8 +26,6 @@ console.log(value)
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }
-
-export default Calendar;
