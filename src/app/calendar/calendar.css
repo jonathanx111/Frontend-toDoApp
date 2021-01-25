@@ -1,7 +1,8 @@
 .calendar {
+  float: left;
   box-sizing: border-box;
   font-size: 1rem;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .calendar .header {
@@ -12,6 +13,7 @@
   color: var(--black);
   font-family: var(--font-book);
   font-weight: 700;
+  min-width: 300px;
   display: flex;
 }
 
@@ -25,6 +27,7 @@
 
 .calendar .body {
   border: 1px solid var(--light-blue);
+  min-width: 300px;
 }
 
 .calendar .header .previous {
@@ -88,3 +91,13 @@
 .calendar .day div.today {
   background-color: var(--grey);
 }
+
+.ui.weekly {
+  @orange #FE9A76;
+  border: 100px solid #d82528;
+}
+
+/* .ui.grid.weekly {
+  float: right;
+  border: white;
+} */

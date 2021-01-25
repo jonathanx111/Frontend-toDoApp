@@ -14,6 +14,7 @@
   -moz-osx-font-smoothing: grayscale;
   /* font-smoothing: antialiased; */
   -webkit-font-smoothing: antialiased;
+  padding-top: 1%;
 }
 /* 
 @font-face {
