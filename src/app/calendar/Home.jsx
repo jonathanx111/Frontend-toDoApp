@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import buildCalendar from "./build";
 import MiniCalendar from "./MiniCalendar";
 import WeeklyCalendar from "./WeeklyCalendar";
-import { Grid } from "semantic-ui-react";
+// import { Grid } from "semantic-ui-react";
 import "./calendar.css";
 
-function Home() {
+function Home({ tasks }) {
   const [value, setValue] = useState(new Date());
   const [calendar, setCalendar] = useState([]);
   
@@ -14,13 +14,13 @@ function Home() {
   }, [value]);
 
   return (
-    <div>
+    <div className="main-container">
       <div className="calendar">
         <MiniCalendar value={value} setValue={setValue} calendar={calendar} />
       </div>
-      <Grid container columns={7}>
-        <WeeklyCalendar value={value} setValue={setValue} calendar={calendar} />
-      </Grid>
+      <div className="weekly-container">
+        <WeeklyCalendar value={value} setValue={setValue} calendar={calendar} tasks={tasks} />
+      </div>
     </div>
   );
 }

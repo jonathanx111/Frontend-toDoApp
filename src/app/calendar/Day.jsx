@@ -1,7 +1,6 @@
 import { startOfWeek, endOfWeek, eachDayOfInterval, format, isSameDay } from "date-fns"
-import "./weekCalendar.css"
 
-export default function Day({ weekDayIndex, value }) {
+export default function Day({ weekDayIndex, value, tasks }) {
         const weekStart = startOfWeek(value)
         const weekEnd = endOfWeek(value)
         const weekDays = eachDayOfInterval({
