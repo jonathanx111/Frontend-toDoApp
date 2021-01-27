@@ -14,7 +14,7 @@ export default function Day({ weekDayIndex, value, tasks }) {
     start: weekStart,
     end: weekEnd,
   });
-  console.log(tasks)
+ 
   const weekDay = weekDays[weekDayIndex];
   let dayTasks = [];
   if (tasks) {

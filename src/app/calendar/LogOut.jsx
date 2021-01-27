@@ -1,4 +1,4 @@
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 export default function LogOut({ setCurrentUser, setTasks }) {
   const history = useHistory();
   function logout() {

@@ -1,16 +1,32 @@
 import "./app.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import NavBar from "./calendar/NavBar";
 import Home from "./calendar/Home";
 import NewTaskForm from "./calendar/NewTaskForm";
 import Login from "./calendar/Login";
-// import LogOut from "./calendar/LogOut"
+
 function App() {
   const [tasks, setTasks] = useState();
   const [currentUser, setCurrentUser] = useState();
-  console.log(currentUser);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch("http://localhost:3000/profile", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((r) => r.json())
+        .then((user) => {
+          setCurrentUser(user)
+          setTasks(user.tasks)
+        });
+    }
+  }, []);
+  console.log(currentUser)
   return (
     <div>
       <NavBar
