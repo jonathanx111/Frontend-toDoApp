@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   startOfWeek,
   endOfWeek,
@@ -8,6 +9,7 @@ import {
 import { nanoid } from 'nanoid'
 
 export default function Day({ weekDayIndex, value, tasks }) {
+  const [isHover, setIsHover] = useState(false)
   const weekStart = startOfWeek(value);
   const weekEnd = endOfWeek(value);
   const weekDays = eachDayOfInterval({
@@ -21,7 +23,7 @@ export default function Day({ weekDayIndex, value, tasks }) {
     const currentDate = format(weekDay, "P");
     dayTasks = tasks.map((task) => {
       if (currentDate === task.day.date) {
-        return <div  key={nanoid()} className="task-list">{task.description}</div>;
+        return <div onMouseEnter={() => setIsHover(!isHover)} onMouseLeave={() => setIsHover(!isHover)}  key={nanoid()} className="task-list">{isHover ? task.points + " points" : task.description}</div>;
       } else {
         return null;
       }
