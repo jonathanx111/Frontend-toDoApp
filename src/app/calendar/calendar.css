@@ -140,13 +140,22 @@
 .task-list {
   color:blue;
   font-size: 20px;
-  border-bottom: 1px solid black;
-  padding-bottom: 10px;
-  padding-top: 10px;
   height: 50px;
   overflow: hidden;
+  padding-top: 8%;
+  cursor: pointer;
+  padding-bottom: 10%;
 }
 
+.task-list-done {
+  color:blue;
+  font-size: 20px;
+  height: 50px;
+  overflow: hidden;
+  padding-top: 8%;
+  cursor: pointer;
+  text-decoration: line-through
+}
 
 .navbar-container{
   display: flex;
@@ -178,3 +187,38 @@
   padding-left: 30px;
 
 }
+
+.edit-button {
+  background: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+
+.pencil {
+
+}
+
+.task-list-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid black;
+  
+}
+
+.edit-task .edit-task-input{
+  outline: 0;
+  border-width: 0 0 1px;
+  padding: 0;
+  border-radius: 0;
+  border-color: rgb(8, 230, 255);
+ 
+}
+
+
+
+

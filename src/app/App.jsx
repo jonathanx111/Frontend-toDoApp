@@ -21,12 +21,23 @@ function App() {
       })
         .then((r) => r.json())
         .then((user) => {
-          setCurrentUser(user)
-          setTasks(user.tasks)
-          console.log(user)
+          setCurrentUser(user);
+          setTasks(user.tasks);
         });
     }
   }, []);
+
+  function handleUpdateTask(updatedTaskObj) {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === updatedTaskObj.id) {
+        return updatedTaskObj;
+      } else {
+        return task;
+      }
+    });
+    setTasks(updatedTasks);
+  }
+
   return (
     <div>
       <NavBar
@@ -36,10 +47,18 @@ function App() {
       />
       <Switch>
         <Route exact path="/">
-          <Home tasks={tasks} />
+          <Home
+            tasks={tasks}
+            setTasks={setTasks}
+            handleUpdateTask={handleUpdateTask}
+          />
         </Route>
         <Route exact path="/tasks/new">
-          <NewTaskForm currentUser={currentUser} tasks={tasks} setTasks={setTasks} />
+          <NewTaskForm
+            currentUser={currentUser}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
         </Route>
         <Route exact path={"/login"}>
           <Login

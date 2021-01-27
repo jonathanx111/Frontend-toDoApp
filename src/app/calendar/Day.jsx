@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react";
 import {
   startOfWeek,
   endOfWeek,
@@ -6,10 +6,18 @@ import {
   format,
   isSameDay,
 } from "date-fns";
-import { nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
+import EditMessage from "./EditMessage";
 
-export default function Day({ weekDayIndex, value, tasks }) {
-  const [isHover, setIsHover] = useState(false)
+export default function Day({
+  weekDayIndex,
+  value,
+  tasks,
+  setTasks,
+  handleUpdateTask,
+}) {
+  const [selectedId, setSelectedId] = useState([]);
+  const [isEditingId, setIsEditingId] = useState();
   const weekStart = startOfWeek(value);
   const weekEnd = endOfWeek(value);
   const weekDays = eachDayOfInterval({
@@ -17,25 +25,152 @@ export default function Day({ weekDayIndex, value, tasks }) {
     end: weekEnd,
   });
   const weekDay = weekDays[weekDayIndex];
- 
-  function handleMouseEnter(e, task) {
-    if (task.id === parseInt(e.target.id, 10)) {
-      setIsHover(!isHover)
+
+  function handleEditClick(e) {
+    if (!isEditingId) {
+      setIsEditingId(parseInt(e.target.id, 10));
+    } else if (isEditingId) {
+      setIsEditingId();
     }
   }
 
-  function handleMouseLeave(e, task) {
-    if (task.id === parseInt(e.target.id, 10)) {
-      setIsHover(!isHover);
+  function handleDeleteClick(e) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch(`http://localhost:3000/tasks/${e.target.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((r) => r.json)
+        .then((deletedObj) => {
+          console.log(deletedObj);
+          const afterDeleteTaskArray = tasks.filter(
+            (task) => task.id !== parseInt(e.target.id, 10)
+          );
+          
+          setTasks(afterDeleteTaskArray);
+        });
     }
   }
-  
+
+  function handleDescriptionClick(e, task) {
+    const token = localStorage.getItem("token");
+    if (parseInt(e.target.id, 10) === task.id && !task.done) {
+      if (token) {
+        const taskPatchData = {
+          description: task.description,
+          points: task.points,
+          done: true,
+        };
+        console.log(taskPatchData);
+        fetch(`http://localhost:3000/tasks/${task.id}`, {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(taskPatchData),
+        })
+          .then((r) => r.json())
+          .then((taskObj) => {
+            console.log(taskObj);
+            const updatedTasks = tasks.map((taskObj) => {
+              if (taskObj.id === task.id) return { ...task, done: true };
+              return taskObj;
+            });
+            setTasks(updatedTasks);
+          });
+      }
+      setSelectedId([...selectedId, task.id]);
+    } else if (parseInt(e.target.id, 10) === task.id && task.done) {
+      if (token) {
+        const taskPatchData = {
+          description: task.description,
+          points: task.points,
+          done: false,
+        };
+        console.log(taskPatchData);
+        fetch(`http://localhost:3000/tasks/${task.id}`, {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(taskPatchData),
+        })
+          .then((r) => r.json())
+          .then((taskObj) => {
+            console.log(taskObj);
+            const updatedTasks = tasks.map((taskObj) => {
+              if (taskObj.id === task.id) return { ...task, done: false };
+              return taskObj;
+            });
+            setTasks(updatedTasks);
+          });
+      }
+      const filteredIds = selectedId.filter((id) => {
+        return id !== task.id;
+      });
+      setSelectedId(filteredIds);
+    }
+  }
+
   let dayTasks = [];
+
   if (tasks) {
     const currentDate = format(weekDay, "P");
     dayTasks = tasks.map((task) => {
       if (currentDate === task.day.date) {
-        return <div id={task.id} onMouseEnter={(e) => handleMouseEnter(e, task)} onMouseLeave={(e) => handleMouseLeave(e, task)}  key={nanoid()} className="task-list">{isHover ? task.points + " points" : task.description}</div>;
+        return (
+          <div key={nanoid()} className="task-list-container">
+            <div
+              id={task.id}
+              onClick={(e) => handleDescriptionClick(e, task)}
+              className={
+                task.done || selectedId.includes(task.id)
+                  ? "task-list-done"
+                  : "task-list"
+              }
+            >
+              <div id={task.id}>
+                {isEditingId === task.id ? (
+                  <EditMessage
+                    setIsEditingId={setIsEditingId}
+                    id={task.id}
+                    task={task}
+                    tasks={tasks}
+                    setTasks={setTasks}
+                    handleUpdateTask={handleUpdateTask}
+                  />
+                ) : (
+                  task.description
+                )}
+              </div>
+            </div>
+            <div>
+              <button onClick={handleEditClick} className={"edit-button"}>
+                <span
+                  id={task.id}
+                  className="pencil"
+                  role="img"
+                  aria-label="edit"
+                >
+                  ✏️
+                </span>
+              </button>
+            </div>
+            <div>
+              <button onClick={handleDeleteClick} className="edit-button">
+                <span id={task.id} role="img" aria-label="delete">
+                  🗑
+                </span>
+              </button>
+            </div>
+          </div>
+        );
       } else {
         return null;
       }

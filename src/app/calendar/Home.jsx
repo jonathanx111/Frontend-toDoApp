@@ -6,10 +6,10 @@ import WeeklyCalendar from "./WeeklyCalendar";
 // import { Grid } from "semantic-ui-react";
 import "./calendar.css";
 
-function Home({ tasks }) {
+function Home({ tasks, setTasks, handleUpdateTask }) {
   const [value, setValue] = useState(new Date());
   const [calendar, setCalendar] = useState([]);
-  
+
   useEffect(() => {
     setCalendar(buildCalendar(value));
   }, [value]);
@@ -20,7 +20,14 @@ function Home({ tasks }) {
         <MiniCalendar value={value} setValue={setValue} calendar={calendar} />
       </div>
       <div className="weekly-container">
-        <WeeklyCalendar value={value} setValue={setValue} calendar={calendar} tasks={tasks} />
+        <WeeklyCalendar
+          handleUpdateTask={handleUpdateTask}
+          value={value}
+          setValue={setValue}
+          calendar={calendar}
+          tasks={tasks}
+          setTasks={setTasks}
+        />
       </div>
     </div>
   );
