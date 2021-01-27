@@ -7,7 +7,7 @@ import "./form.css";
 
 function NewTaskForm({ currentUser, tasks, setTasks }) {
   const history = useHistory();
-  const { register, errors, handleSubmit } = useForm();
+  const { register, errors, handleSubmit, setError } = useForm();
   const startDay = new Date(2020, 0, 1);
 
   const onSubmit = (formData) => {
@@ -35,11 +35,23 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
       },
       body: JSON.stringify(postData),
     })
-      .then((r) => r.json())
+    .then((r) => {
+        return r.json().then((data) => {
+          if (r.ok) {
+            return data;
+          } else {
+            throw data;
+          }
+        });
+      })
       .then((data) => {
         setTasks([...tasks, data]);
-        console.log(tasks);
         history.push("/");
+      })
+      .catch((data) => {
+        setError('taskDescription', {
+            type: 'server',
+        })
       });
   };
 
@@ -60,6 +72,10 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
         {errors.taskDescription &&
           errors.taskDescription.type === "maxLength" && (
             <p>Max amount of characters is 20</p>
+          )}
+        {errors.taskDescription &&
+          errors.taskDescription.type === "server" && (
+            <p>Username is already taken</p>
           )}
         <label>Number of Points</label>
         <input

@@ -16,14 +16,26 @@ export default function Day({ weekDayIndex, value, tasks }) {
     start: weekStart,
     end: weekEnd,
   });
- 
   const weekDay = weekDays[weekDayIndex];
+ 
+  function handleMouseEnter(e, task) {
+    if (task.id === parseInt(e.target.id, 10)) {
+      setIsHover(!isHover)
+    }
+  }
+
+  function handleMouseLeave(e, task) {
+    if (task.id === parseInt(e.target.id, 10)) {
+      setIsHover(!isHover);
+    }
+  }
+  
   let dayTasks = [];
   if (tasks) {
     const currentDate = format(weekDay, "P");
     dayTasks = tasks.map((task) => {
       if (currentDate === task.day.date) {
-        return <div onMouseEnter={() => setIsHover(!isHover)} onMouseLeave={() => setIsHover(!isHover)}  key={nanoid()} className="task-list">{isHover ? task.points + " points" : task.description}</div>;
+        return <div id={task.id} onMouseEnter={(e) => handleMouseEnter(e, task)} onMouseLeave={(e) => handleMouseLeave(e, task)}  key={nanoid()} className="task-list">{isHover ? task.points + " points" : task.description}</div>;
       } else {
         return null;
       }
