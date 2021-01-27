@@ -23,10 +23,10 @@ function App() {
         .then((user) => {
           setCurrentUser(user)
           setTasks(user.tasks)
+          console.log(user)
         });
     }
   }, []);
-  console.log(currentUser)
   return (
     <div>
       <NavBar
@@ -39,7 +39,7 @@ function App() {
           <Home tasks={tasks} />
         </Route>
         <Route exact path="/tasks/new">
-          <NewTaskForm />
+          <NewTaskForm currentUser={currentUser} tasks={tasks} setTasks={setTasks} />
         </Route>
         <Route exact path={"/login"}>
           <Login

@@ -1,10 +1,12 @@
 // import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { eachDayOfInterval, parseISO } from "date-fns";
 import { formatDashesDate } from "./build";
 import "./form.css";
 
-function NewTaskForm() {
+function NewTaskForm({ currentUser, tasks, setTasks }) {
+  const history = useHistory();
   const { register, errors, handleSubmit } = useForm();
   const startDay = new Date(2020, 0, 1);
 
@@ -15,19 +17,30 @@ function NewTaskForm() {
       start: startDay,
       end: endDay,
     }).length;
- 
-  
-    //   const postData = {
-    //       user_id: 1,
-    //       day_id:  
-    //   }
-    //   fetch("http://localhost:3000/tasks", {
-    //     method: "POST",
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify()
-    //   });
+
+    console.log(currentUser);
+    const postData = {
+      user_id: currentUser.id,
+      day_id: dayId,
+      description: formData.taskDescription,
+      points: formData.points,
+      done: false,
+    };
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        setTasks([...tasks, data]);
+        console.log(tasks);
+        history.push("/");
+      });
   };
 
   return (
