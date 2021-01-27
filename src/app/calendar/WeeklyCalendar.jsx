@@ -4,10 +4,11 @@
 import Day from "./Day";
 
 export default function WeeklyCalendar({ value, setValue, tasks }) {
+ 
   const dayColumns = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
     (day, index) => {
       return (
-        <div>
+        <div className="weekly-calendar" key={day}>
           <Day weekDayIndex={index} value={value} tasks={tasks} />
         </div>
       );

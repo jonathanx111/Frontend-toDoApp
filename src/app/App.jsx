@@ -1,31 +1,24 @@
 import "./app.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-// import NavBar from './calendar/NavBar';
+import NavBar from './calendar/NavBar';
 import Home from "./calendar/Home";
 import NewTaskForm from "./calendar/NewTaskForm";
 import Login from "./calendar/Login";
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      user_id: 1,
-      game_id: 1,
-      description: "Cook Dinner",
-      chore_points: 6,
-      done: false,
-    },
-    {
-      user_id: 1,
-      game_id: 2,
-      description: "Clean Dishes",
-      chore_points: 3,
-      done: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState();
+
+  useEffect(() => {
+    fetch("http://localhost:3000/users/1")
+      .then((r) => r.json())
+      .then((userObj) => {
+        setTasks(userObj.tasks);
+      });
+  }, []);
 
   return (
     <div>
-      {/* <NavBar /> */}
+      <NavBar />
       <Switch>
         <Route exact path="/">
           <Home tasks={tasks} />
