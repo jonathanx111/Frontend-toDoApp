@@ -1,24 +1,23 @@
 import "./app.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Route, Switch } from "react-router-dom";
-import NavBar from './calendar/NavBar';
+import NavBar from "./calendar/NavBar";
 import Home from "./calendar/Home";
 import NewTaskForm from "./calendar/NewTaskForm";
 import Login from "./calendar/Login";
+// import LogOut from "./calendar/LogOut"
 function App() {
   const [tasks, setTasks] = useState();
-
-  useEffect(() => {
-    fetch("http://localhost:3000/users/1")
-      .then((r) => r.json())
-      .then((userObj) => {
-        setTasks(userObj.tasks);
-      });
-  }, []);
+  const [currentUser, setCurrentUser] = useState();
+  console.log(currentUser);
 
   return (
     <div>
-      <NavBar />
+      <NavBar
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        setTasks={setTasks}
+      />
       <Switch>
         <Route exact path="/">
           <Home tasks={tasks} />
@@ -26,8 +25,13 @@ function App() {
         <Route exact path="/tasks/new">
           <NewTaskForm />
         </Route>
-        <Route exact path="/login">
-          <Login />
+        <Route exact path={"/login"}>
+          <Login
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
         </Route>
         <Route path="*">
           <h1>404 Address not Found</h1>

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-function NavBar() {
+import LogOut from "./LogOut";
+function NavBar({ currentUser, setCurrentUser, setTasks }) {
   return (
     <>
       <h1 className="header-title">ToDoApp</h1>
@@ -11,9 +12,13 @@ function NavBar() {
           <NavLink exact to="/tasks/new" className="button">
             Create Task
           </NavLink>
-          <NavLink exact to="/login" className="button">
-            Login
-          </NavLink>
+          {currentUser ? (
+            <LogOut setCurrentUser={setCurrentUser} setTasks={setTasks} />
+          ) : (
+            <NavLink exact to={"/login"} className="button">
+              {"Login"}
+            </NavLink>
+          )}
         </nav>
       </header>
     </>

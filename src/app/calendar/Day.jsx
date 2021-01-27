@@ -14,6 +14,7 @@ export default function Day({ weekDayIndex, value, tasks }) {
     start: weekStart,
     end: weekEnd,
   });
+  console.log(tasks)
   const weekDay = weekDays[weekDayIndex];
   let dayTasks = [];
   if (tasks) {
@@ -26,7 +27,7 @@ export default function Day({ weekDayIndex, value, tasks }) {
       }
     });
   }
-  console.log(dayTasks);
+
   return (
     <>
       <h1 className={isSameDay(weekDay, value) ? "week-select" : "not-select"}>
