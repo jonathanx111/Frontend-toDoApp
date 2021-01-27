@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
-  const { register, errors, handleSubmit } = useForm();
+  const { register, errors, handleSubmit, setError } = useForm();
   const history = useHistory();
+
   const onSubmit = (formData) => {
-    console.log(formData);
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -15,12 +15,28 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
         password: formData.password,
       }),
     })
-      .then((r) => r.json())
+      .then((r) => {
+        return r.json().then((data) => {
+          if (r.ok) {
+            return data;
+          } else {
+            throw data;
+          }
+        });
+      })
       .then((data) => {
         setCurrentUser(data.user);
-        setTasks(data.user.tasks)
+        setTasks(data.user.tasks);
         localStorage.setItem("token", data.token);
         history.push("/");
+      })
+      .catch((data) => {
+        setError('userName', {
+            type: 'server',
+        })
+        setError('password', {
+            type: 'server',
+        })
       });
   };
 
@@ -39,6 +55,10 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
           {errors.userName && errors.userName.type === "required" && (
             <p>Username is required</p>
           )}
+          {errors.userName && errors.userName.type === "server" && (
+            <p>Invalid Username or Password</p>
+          )}
+
           <label>Password</label>
           <input
             name="password"
@@ -47,6 +67,9 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
           />
           {errors.password && errors.password.type === "required" && (
             <p>Password is required</p>
+          )}
+          {errors.userName && errors.userName.type === "server" && (
+            <p>Invalid Username or Password</p>
           )}
           <input type="submit" />
         </form>
