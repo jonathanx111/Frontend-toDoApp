@@ -43,7 +43,7 @@ export default function MyVerticallyCenteredModal(props) {
         // });
       });
   };
-  console.log(props);
+  // console.log(props);
   return (
     <Modal
       {...props}

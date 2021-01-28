@@ -14,6 +14,7 @@ console.log(process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID);
   }
   const handleGoogleLogin = (response) => {
     console.log(response)
+    console.log(response.tokenId)
       if (response.tokenId) {
         fetch(`${process.env.REACT_APP_API_URL}/google_login`, {
           method: "POST",
@@ -90,7 +91,7 @@ console.log(process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID);
           {errors.userName && errors.userName.type === "server" && (
             <p>Invalid Username or Password</p>
           )}
-
+          
           <label>Password</label>
           <input
             type="password"
@@ -114,8 +115,8 @@ console.log(process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID);
           <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
             buttonText="Login"
-            onSuccess={() => handleGoogleLogin()}
-            onFailure={() => handleGoogleLogin()}
+            onSuccess={handleGoogleLogin}
+            onFailure={handleGoogleLogin}
             cookiePolicy={"single_host_origin"}
           />
         </div>
