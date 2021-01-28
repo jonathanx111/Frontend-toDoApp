@@ -68,7 +68,8 @@ export default function Day({
           done: true,
         };
         console.log(taskPatchData);
-        fetch(`${process.env.REACT_APP_API_URL}/${task.id}`, {
+        console.log(`${process.env.REACT_APP_API_URL}/tasks/${task.id}`);
+        fetch(`${process.env.REACT_APP_API_URL}/tasks/${task.id}`, {
           method: "PATCH",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -96,7 +97,7 @@ export default function Day({
           done: false,
         };
         console.log(taskPatchData);
-        fetch(`${process.env.REACT_APP_API_URL}/${task.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/tasks/${task.id}`, {
           method: "PATCH",
           headers: {
             Authorization: `Bearer ${token}`,
