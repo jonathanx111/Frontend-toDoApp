@@ -52,6 +52,7 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
       .catch((data) => {
         setError("taskDescription", {
           type: "server",
+          message: data.error
         });
       });
   };
@@ -67,16 +68,16 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
           placeholder="Task Description"
         />
         {errors.taskDescription &&
-          errors.taskDescription.type === "required" (
+          errors.taskDescription.type === "required" && (
             <p>Description is required</p>
           )}
         {errors.taskDescription &&
-          errors.taskDescription.type === "maxLength" (
+          errors.taskDescription.type === "maxLength" && (
             <p>Max amount of characters is 20</p>
           )}
         {errors.taskDescription &&
-          errors.taskDescription.type === "server" (
-            <p>Username is already taken</p>
+          errors.taskDescription.type === "server" && (
+            <p>Server Error, please try again</p>
           )}
         <label>Number of Points</label>
         <input
