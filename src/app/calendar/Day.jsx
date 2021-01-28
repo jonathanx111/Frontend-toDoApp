@@ -39,7 +39,7 @@ export default function Day({
   function handleDeleteClick(e) {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch(`${process.env.REACT_APP_API_URL}/${e.target.id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/tasks/${e.target.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
