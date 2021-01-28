@@ -29,8 +29,10 @@ console.log(process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID);
             const { user, token } = data;
             // then set that user in state in our App component
             setCurrentUser(user);
+             setTasks(user.tasks);
             // also save the id to localStorage
             localStorage.token = token;
+            history.push("/");
           });
       }
     };
