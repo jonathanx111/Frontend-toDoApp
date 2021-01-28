@@ -1,15 +1,15 @@
-import { useState } from "react"
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import MyVerticallyCenteredModal from "./SignUpModel"
+import MyVerticallyCenteredModal from "./SignUpModel";
 function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
   const [modalShow, setModalShow] = useState(false);
   const { register, errors, handleSubmit, setError } = useForm();
   const history = useHistory();
 
   function handleSignUpClick() {
-    setModalShow(true)
+    setModalShow(true);
   }
 
   const onSubmit = (formData) => {
@@ -48,7 +48,7 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
         });
       });
   };
-console.log(currentUser)
+  console.log(currentUser);
   return (
     <div>
       <div>
@@ -70,6 +70,7 @@ console.log(currentUser)
 
           <label>Password</label>
           <input
+            type="password"
             name="password"
             ref={register({ required: true })}
             placeholder="Password"

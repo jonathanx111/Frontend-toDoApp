@@ -36,14 +36,14 @@ export default function MyVerticallyCenteredModal(props) {
       .catch((data) => {
         setError("userName", {
           type: "server",
-          message: data.error
+          message: data.error,
         });
         // setError("password", {
         //   type: "server",
         // });
       });
   };
-  console.log(props)
+  console.log(props);
   return (
     <Modal
       {...props}
@@ -67,12 +67,15 @@ export default function MyVerticallyCenteredModal(props) {
           )}
           {errors.userName && errors.userName.type === "server" && (
             <div>
-              {errors.userName.message ? <p>{errors.userName.message}</p> : null}
+              {errors.userName.message ? (
+                <p>{errors.userName.message}</p>
+              ) : null}
             </div>
           )}
 
           <label>Password</label>
           <input
+            type="password"
             name="password"
             ref={register({ required: true })}
             placeholder="Password"
