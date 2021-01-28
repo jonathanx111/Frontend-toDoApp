@@ -23,7 +23,7 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
       user_id: currentUser.id,
       day_id: dayId,
       description: formData.taskDescription,
-      points: formData.points,
+      points: parseInt(formData.points, 10),
       done: false,
     };
     console.log(postData)
@@ -67,15 +67,15 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
           placeholder="Task Description"
         />
         {errors.taskDescription &&
-          errors.taskDescription.type === "required" && (
+          errors.taskDescription.type === "required" (
             <p>Description is required</p>
           )}
         {errors.taskDescription &&
-          errors.taskDescription.type === "maxLength" && (
+          errors.taskDescription.type === "maxLength" (
             <p>Max amount of characters is 20</p>
           )}
         {errors.taskDescription &&
-          errors.taskDescription.type === "server" && (
+          errors.taskDescription.type === "server" (
             <p>Username is already taken</p>
           )}
         <label>Number of Points</label>
