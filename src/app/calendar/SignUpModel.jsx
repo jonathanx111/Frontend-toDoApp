@@ -7,7 +7,7 @@ export default function MyVerticallyCenteredModal(props) {
   const history = useHistory();
   const onSubmit = (formData) => {
     console.log(props);
-    fetch("http://localhost:3000/users", {
+    fetch(`${process.env.REACT_APP_API_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

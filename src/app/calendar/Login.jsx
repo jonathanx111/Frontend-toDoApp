@@ -13,7 +13,7 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
   }
 
   const onSubmit = (formData) => {
-    fetch("http://localhost:3000/login", {
+    fetch(`${process.env.REACT_APP_API_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +33,7 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
         });
       })
       .then((data) => {
-        console.log(data)
+        console.log(data);
         setCurrentUser(data.user);
         setTasks(data.user.tasks);
         localStorage.setItem("token", data.token);

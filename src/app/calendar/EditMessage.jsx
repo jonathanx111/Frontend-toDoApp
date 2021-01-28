@@ -21,7 +21,7 @@ function EditMessage({
         done: task.done,
       };
       console.log(taskPatchData);
-      fetch(`http://localhost:3000/tasks/${task.id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/${task.id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,7 +33,7 @@ function EditMessage({
         .then((taskObj) => {
           console.log(taskObj);
           handleUpdateTask(taskObj);
-          setIsEditingId()
+          setIsEditingId();
         });
     }
   }

@@ -39,7 +39,7 @@ export default function Day({
   function handleDeleteClick(e) {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch(`http://localhost:3000/tasks/${e.target.id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/${e.target.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export default function Day({
           const afterDeleteTaskArray = tasks.filter(
             (task) => task.id !== parseInt(e.target.id, 10)
           );
-          
+
           setTasks(afterDeleteTaskArray);
         });
     }
@@ -68,7 +68,7 @@ export default function Day({
           done: true,
         };
         console.log(taskPatchData);
-        fetch(`http://localhost:3000/tasks/${task.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/${task.id}`, {
           method: "PATCH",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ export default function Day({
               return taskObj;
             });
             setTasks(updatedTasks);
-             fireWorks();
+            fireWorks();
           });
       }
       setSelectedId([...selectedId, task.id]);
@@ -96,7 +96,7 @@ export default function Day({
           done: false,
         };
         console.log(taskPatchData);
-        fetch(`http://localhost:3000/tasks/${task.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/${task.id}`, {
           method: "PATCH",
           headers: {
             Authorization: `Bearer ${token}`,

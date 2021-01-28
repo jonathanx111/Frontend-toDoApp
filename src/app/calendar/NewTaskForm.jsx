@@ -28,7 +28,7 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
     };
     console.log(postData)
     const token = localStorage.getItem("token");
-    fetch("http://localhost:3000/tasks", {
+    fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,7 +36,7 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
       },
       body: JSON.stringify(postData),
     })
-    .then((r) => {
+      .then((r) => {
         return r.json().then((data) => {
           if (r.ok) {
             return data;
@@ -50,9 +50,9 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
         history.push("/");
       })
       .catch((data) => {
-        setError('taskDescription', {
-            type: 'server',
-        })
+        setError("taskDescription", {
+          type: "server",
+        });
       });
   };
 
