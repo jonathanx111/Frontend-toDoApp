@@ -1,19 +1,13 @@
-import { useState } from "react"
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import MyVerticallyCenteredModal from "./SignUpModel"
-function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
-  const [modalShow, setModalShow] = useState(false);
+export default function MyVerticallyCenteredModal(props) {
   const { register, errors, handleSubmit, setError } = useForm();
   const history = useHistory();
-
-  function handleSignUpClick() {
-    setModalShow(true)
-  }
-
   const onSubmit = (formData) => {
-    fetch("http://localhost:3000/login", {
+    console.log(props);
+    fetch("http://localhost:3000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,6 +15,7 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
       body: JSON.stringify({
         username: formData.userName,
         password: formData.password,
+        points: 0,
       }),
     })
       .then((r) => {
@@ -33,27 +28,33 @@ function Login({ currentUser, setCurrentUser, tasks, setTasks }) {
         });
       })
       .then((data) => {
-        console.log(data)
-        setCurrentUser(data.user);
-        setTasks(data.user.tasks);
-        localStorage.setItem("token", data.token);
+        props.setCurrentUser(data.user);
+        props.setTasks(data.user.tasks);
+        localStorage.setItem("token", data.jwt);
         history.push("/");
       })
       .catch((data) => {
         setError("userName", {
           type: "server",
+          message: data.error
         });
-        setError("password", {
-          type: "server",
-        });
+        // setError("password", {
+        //   type: "server",
+        // });
       });
   };
-console.log(currentUser)
+  console.log(props)
   return (
-    <div>
-      <div>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>Login</h1>
+          <h1>Sign Up</h1>
           <label>Username</label>
           <input
             type="text"
@@ -65,7 +66,9 @@ console.log(currentUser)
             <p>Username is required</p>
           )}
           {errors.userName && errors.userName.type === "server" && (
-            <p>Invalid Username or Password</p>
+            <div>
+              {errors.userName.message ? <p>{errors.userName.message}</p> : null}
+            </div>
           )}
 
           <label>Password</label>
@@ -77,31 +80,12 @@ console.log(currentUser)
           {errors.password && errors.password.type === "required" && (
             <p>Password is required</p>
           )}
-          {errors.userName && errors.userName.type === "server" && (
-            <p>Invalid Username or Password</p>
-          )}
           <input type="submit" />
-        </form>
-      </div>
-      <br />
-      <center>
-        <Button
-          onClick={handleSignUpClick}
-          className="sign-up"
-          variant="outline-success"
-        >
-          Create Account
-        </Button>
-
-        <MyVerticallyCenteredModal
-          show={modalShow}
-          setCurrentUser={setCurrentUser}
-          setTasks={setTasks}
-          onHide={() => setModalShow(false)}
-        />
-      </center>
-    </div>
+        </form>{" "}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
-
-export default Login;

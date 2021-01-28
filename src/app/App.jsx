@@ -1,6 +1,6 @@
 import "./app.css";
 import { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import NavBar from "./calendar/NavBar";
 import Home from "./calendar/Home";
 import NewTaskForm from "./calendar/NewTaskForm";
@@ -46,7 +46,15 @@ function App() {
         setTasks={setTasks}
       />
       <Switch>
-        <Route exact path="/">
+        <Route exact path={"/login"}>
+          <Login
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
+        </Route>
+        <Route exact path="/calendar">
           <Home
             tasks={tasks}
             setTasks={setTasks}
@@ -60,16 +68,12 @@ function App() {
             setTasks={setTasks}
           />
         </Route>
-        <Route exact path={"/login"}>
-          <Login
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            tasks={tasks}
-            setTasks={setTasks}
-          />
-        </Route>
-        <Route path="*">
-          <h1>404 Address not Found</h1>
+        <Route path="/">
+          {currentUser ? (
+            <Redirect to="/calendar" />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
       </Switch>
     </div>

@@ -26,6 +26,7 @@ function NewTaskForm({ currentUser, tasks, setTasks }) {
       points: formData.points,
       done: false,
     };
+    console.log(postData)
     const token = localStorage.getItem("token");
     fetch("http://localhost:3000/tasks", {
       method: "POST",

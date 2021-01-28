@@ -8,6 +8,8 @@ import {
 } from "date-fns";
 import { nanoid } from "nanoid";
 import EditMessage from "./EditMessage";
+import fireWorks from "./specialEffects"
+
 
 export default function Day({
   weekDayIndex,
@@ -82,6 +84,7 @@ export default function Day({
               return taskObj;
             });
             setTasks(updatedTasks);
+             fireWorks();
           });
       }
       setSelectedId([...selectedId, task.id]);

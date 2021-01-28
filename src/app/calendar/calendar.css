@@ -162,15 +162,17 @@
   flex-direction: row;
   font-family: 'Major Mono Display', monospace;
   color: #ba181b;
+  width: 100%;
+  font-weight: bolder;
+  margin-bottom: 10px;
 }
 
-/* .navbar-container:hover{
-  border-style: inset;
-  border-color: #660708;
-  border-top-right-radius: 45%;
-  border-width: 15px;
-  transition: .2s;
-} */
+
+.navbar-container .navbar-links .button:hover{
+background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+background-size: 80px 140px;
+}
+
 .navbar-links {
   display: flex;
   flex-direction: row;
@@ -186,6 +188,22 @@
   justify-content: center;
   padding-left: 30px;
 
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  font-family: 'Roboto';
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 .edit-button {
@@ -218,6 +236,7 @@
   border-color: rgb(8, 230, 255);
  
 }
+
 
 
 
